@@ -17,17 +17,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Android SDK einrichten
-        uses: android-actions/setup-android@v3
-
       - name: Gradle Wrapper erzeugen
         run: gradle wrapper --gradle-version 8.7
 
       - name: Ausführungsrechte setzen
         run: chmod +x ./gradlew
 
+      - name: Android SDK Lizenzen akzeptieren
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
       - name: Debug-APK bauen
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: APK als Artifact hochladen
         uses: actions/upload-artifact@v4
